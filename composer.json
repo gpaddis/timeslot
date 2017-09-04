@@ -1,0 +1,23 @@
+{
+    "name": "gpaddis/timeslot",
+    "description": "A PHP library for managing timeslots.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gianpiero Addis",
+            "email": "gianpiero.addis@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^1.22"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Timeslot\\": "src/Timeslot/"
+        }
+    }
+}
