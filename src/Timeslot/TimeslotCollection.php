@@ -9,7 +9,12 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface
 {
     protected $collection = [];
 
-    public function __construct(Timeslot $timeslot)
+    /**
+     * TimeslotCollection constructor.
+     *
+     * @param TimeslotInterface $timeslot
+     */
+    public function __construct(TimeslotInterface $timeslot)
     {
         $this->collection[] = $timeslot;
     }
@@ -20,6 +25,8 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface
     }
 
     /**
+     * Return the start date & time of the collection.
+     *
      * http://be2.php.net/reset
      * @return Carbon\Carbon
      */
@@ -29,11 +36,23 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface
     }
 
     /**
+     * Return the end date & time of the collection.
+     *
      * https://secure.php.net/manual/en/function.end.php
      * @return Carbon\Carbon
      */
     public function end()
     {
         return end($this->collection)->end();
+    }
+
+    /**
+     * Add a TimeslotInterface object to the collection.
+     *
+     * @param TimeslotInterface $timeslot
+     */
+    public function add(TimeslotInterface $timeslot)
+    {
+        $this->collection[] = $timeslot;
     }
 }
