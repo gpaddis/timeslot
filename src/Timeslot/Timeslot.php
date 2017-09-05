@@ -2,28 +2,31 @@
 
 namespace Timeslot;
 
+use ArrayIterator;
 use Carbon\Carbon;
+use IteratorAggregate;
 
-/**
- * Timeslot
- */
-class Timeslot
+class Timeslot implements IteratorAggregate, TimeslotInterface
 {
-    /**
-     * Basic timeslot attributes.
-     *
-     * @var Carbon\Carbon $start
-     * @var int $hours
-     * @var Carbon\Carbon $end
-     */
     protected $start;
     protected $hours;
     protected $end;
+
+    protected $collection = [];
 
     protected function __construct(Carbon $start, int $hours)
     {
         $this->start = $start;
         $this->hours = $hours;
+        $this->end = $this->setEnd($hours);
+
+        // TODO: check the logic here. Objects are passed by reference, not by value.
+        $this->collection[] = $this;
+    }
+
+    public function getIterator()
+    {
+        return new ArrayIterator($this->collection);
     }
 
     /**
