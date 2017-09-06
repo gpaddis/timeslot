@@ -17,7 +17,16 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    function it_creates_default_timeslot()
+    public function it_creates_a_current_timeslot_when_no_arguments_are_passed()
+    {
+        $now = Carbon::now()->timestamp;
+        $timeslot = new Timeslot;
+
+        $this->assertGreaterThanOrEqual($timeslot->start()->timestamp, $now);
+    }
+
+    /** @test */
+    function it_creates_a_default_timeslot()
     {
         // Given I have a default timeslot (1 hour)
         $timeslot = Timeslot::now();
@@ -39,7 +48,7 @@ class TimeslotTest extends TestCase
         $datetime = Carbon::create('2019', '11', '4', '12', '10', '36');
 
         // Create a 3-hours timeslot from the instance
-        $timeslot = Timeslot::custom($datetime, 3);
+        $timeslot = Timeslot::create($datetime, 3);
 
         // Start and end time should be as expected
         $this->assertEquals('2019-11-04 12:00:00', $timeslot->start()->toDateTimeString());
@@ -49,7 +58,7 @@ class TimeslotTest extends TestCase
     /** @test */
     public function it_moves_the_current_timeslot_two_hours_in_the_future()
     {
-        $timeslot = Timeslot::custom(Carbon::parse('2017-01-18 13:00:00'));
+        $timeslot = Timeslot::create(Carbon::parse('2017-01-18 13:00:00'));
 
         $timeslot->addHour(2);
 

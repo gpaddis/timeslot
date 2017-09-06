@@ -20,8 +20,10 @@ class Timeslot implements TimeslotInterface
      * @param DateTime    $start
      * @param int         $hours
      */
-    public function __construct(DateTime $start, int $hours = 1)
+    public function __construct(DateTime $start = null, int $hours = 1)
     {
+        $start = $start ?: Carbon::now();
+
         if (! $start instanceof Carbon) {
             $start = Carbon::instance($start);
         }
@@ -102,28 +104,27 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Return a Timeslot on a custom date / time.
+     * Alternative Timeslot constructor.
      *
      * @param  Carbon\Carbon $start
      * @param  integer $hours
+     *
      * @return App\Timeslot
      */
-    public static function custom($start, $hours = 1)
+    public static function create($start, $hours = 1)
     {
-        $timeslot = new Timeslot($start, $hours);
-        $timeslot->setStart($timeslot->start);
-        $timeslot->setEnd($timeslot->hours);
-        return $timeslot;
+        return new static($start, $hours);
     }
 
     /**
      * Create a new Timeslot instance based on the current date / time.
      *
      * @param  integer $hours
+     *
      * @return App\Timeslot
      */
     public static function now($hours = 1)
     {
-        return Timeslot::custom(Carbon::now(), $hours);
+        return static::create(Carbon::now(), $hours);
     }
 }
