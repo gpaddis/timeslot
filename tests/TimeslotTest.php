@@ -7,7 +7,17 @@ use PHPUnit\Framework\TestCase;
 class TimeslotTest extends TestCase
 {
     /** @test */
-    function create_default_timeslot()
+    public function it_creates_a_timeslot_from_a_DateTime_instance()
+    {
+        $datetime = new DateTime('2010-04-24 10:24:16');
+        $timeslot = new Timeslot($datetime);
+
+        $this->assertEquals('2010-04-24 10:00:00', $timeslot->start()->toDateTimeString());
+        $this->assertEquals('2010-04-24 10:59:59', $timeslot->end()->toDateTimeString());
+    }
+
+    /** @test */
+    function it_creates_default_timeslot()
     {
         // Given I have a default timeslot (1 hour)
         $timeslot = Timeslot::now();
@@ -23,7 +33,7 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    function create_custom_timeslot()
+    function it_creates_a_custom_timeslot()
     {
         // Create a custom Carbon instance
         $datetime = Carbon::create('2019', '11', '4', '12', '10', '36');

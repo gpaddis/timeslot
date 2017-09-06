@@ -2,6 +2,7 @@
 
 namespace Timeslot;
 
+use DateTime;
 use ArrayIterator;
 use Carbon\Carbon;
 
@@ -11,11 +12,23 @@ class Timeslot implements TimeslotInterface
     protected $hours;
     protected $end;
 
-    protected function __construct(Carbon $start, int $hours)
+    /**
+     * The Timeslot constructor accepts a DateTime instance, turns it into a
+     * Carbon instance and sets start and end time according to the duration
+     * provided (default = 1 hour).
+     *
+     * @param DateTime    $start
+     * @param int         $hours
+     */
+    public function __construct(DateTime $start, int $hours = 1)
     {
-        $this->start = $start;
+        if (! $start instanceof Carbon) {
+            $start = Carbon::instance($start);
+        }
+
+        $this->setStart($start);
         $this->hours = $hours;
-        $this->end = $this->setEnd($hours);
+        $this->setEnd($hours);
     }
 
     /**
