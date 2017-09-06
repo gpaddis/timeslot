@@ -17,40 +17,30 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_current_timeslot_when_no_arguments_are_passed()
+    public function it_creates_a_default_timeslot_when_no_arguments_are_passed()
     {
         $now = Carbon::now()->timestamp;
         $timeslot = new Timeslot;
 
         $this->assertGreaterThanOrEqual($timeslot->start()->timestamp, $now);
+        $this->assertLessThanOrEqual($timeslot->end()->timestamp, $now);
     }
 
     /** @test */
-    function it_creates_a_default_timeslot()
+    public function default_timeslot_and_now_timeslot_are_equal()
     {
-        // Given I have a default timeslot (1 hour)
-        $timeslot = Timeslot::now();
+        $timeslot1 = new Timeslot;
+        $timeslot2 = Timeslot::now();
 
-        // When I compare timeslot's start and end with the current time
-        $start = $timeslot->start()->timestamp;
-        $end = $timeslot->end()->timestamp;
-        $now = Carbon::now()->timestamp;
-
-        // Then the current time is within the timeslot's start and end
-        $this->assertGreaterThanOrEqual($start, $now);
-        $this->assertLessThanOrEqual($end, $now);
+        $this->assertEquals($timeslot1, $timeslot2);
     }
 
     /** @test */
     function it_creates_a_custom_timeslot()
     {
-        // Create a custom Carbon instance
         $datetime = Carbon::create('2019', '11', '4', '12', '10', '36');
-
-        // Create a 3-hours timeslot from the instance
         $timeslot = Timeslot::create($datetime, 3);
 
-        // Start and end time should be as expected
         $this->assertEquals('2019-11-04 12:00:00', $timeslot->start()->toDateTimeString());
         $this->assertEquals('2019-11-04 14:59:59', $timeslot->end()->toDateTimeString());
     }
@@ -59,7 +49,6 @@ class TimeslotTest extends TestCase
     public function it_moves_the_current_timeslot_two_hours_in_the_future()
     {
         $timeslot = Timeslot::create(Carbon::parse('2017-01-18 13:00:00'));
-
         $timeslot->addHour(2);
 
         $this->assertEquals('2017-01-18 15:00:00', $timeslot->start());

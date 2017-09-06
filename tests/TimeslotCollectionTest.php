@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Timeslot\Timeslot;
 use PHPUnit\Framework\TestCase;
 use Timeslot\TimeslotCollection;
@@ -27,5 +28,16 @@ class TimeslotCollectionTest extends TestCase
 
         $this->assertEquals($timeslot1->start(), $timeslotCollection->start());
         $this->assertEquals($timeslot2->end(), $timeslotCollection->end());
+    }
+
+    /** @test */
+    public function it_generates_a_collection_of_timeslots()
+    {
+        $now = Timeslot::now();
+        $collection = TimeslotCollection::create($now, 8);
+
+        $this->assertEquals(8, count($collection));
+        $this->assertEquals(8, $collection->count());
+        $this->assertEquals(Timeslot::now(8)->end(), $collection->end());
     }
 }

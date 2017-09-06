@@ -16,6 +16,8 @@ class Timeslot implements TimeslotInterface
      * The Timeslot constructor accepts a DateTime instance, turns it into a
      * Carbon instance and sets start and end time according to the duration
      * provided (default = 1 hour).
+     * If no arguments are passed, it creates a 1-hour timeslot wrapping the
+     * current date and time.
      *
      * @param DateTime    $start
      * @param int         $hours
@@ -34,7 +36,7 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Set the start date / time for the timeslot.
+     * Set the start date & time for the timeslot.
      *
      * @param Carbon\Carbon $start
      */
@@ -44,7 +46,7 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Set the end date / time for the timeslot.
+     * Set the end date & time for the timeslot.
      *
      * @param Carbon\Carbon $end
      */
@@ -58,20 +60,20 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Add a specific number of $hours to the timeslot's start and end date / time.
+     * Add a specific number of $hours to the timeslot's start and end date & time.
      *
      * @param int $hours
      */
     public function addHour(int $hours = 1)
     {
-        $this->start->addHour($hours);
-        $this->end->addHour($hours);
+        $this->start = clone ($this->start)->addHour($hours);
+        $this->end = clone ($this->end)->addHour($hours);
 
         return $this;
     }
 
     /**
-     * Get the start date / time.
+     * Get the start date & time.
      *
      * @return Carbon\Carbon
      */
@@ -104,7 +106,7 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Alternative Timeslot constructor.
+     * Alternative Timeslot constructor that allows fluent syntax.
      *
      * @param  Carbon\Carbon $start
      * @param  integer $hours
@@ -118,6 +120,7 @@ class Timeslot implements TimeslotInterface
 
     /**
      * Create a new Timeslot instance based on the current date / time.
+     * It is still possible to specify a duration in hours.
      *
      * @param  integer $hours
      *
