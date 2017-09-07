@@ -10,19 +10,20 @@ class Timeslot implements TimeslotInterface
 {
     protected $start;
     protected $hours;
+    protected $minutes;
     protected $end;
 
     /**
      * The Timeslot constructor accepts a DateTime instance, turns it into a
      * Carbon instance and sets start and end time according to the duration
-     * provided (default = 1 hour).
+     * provided (default = 1 hour, 0 minutes).
      * If no arguments are passed, it creates a 1-hour timeslot wrapping the
      * current date and time.
      *
      * @param DateTime    $start
      * @param int         $hours
      */
-    public function __construct(DateTime $start = null, int $hours = 1)
+    public function __construct(DateTime $start = null, int $hours = 1, int $minutes = 0)
     {
         $start = $start ?: Carbon::now();
 
@@ -30,33 +31,60 @@ class Timeslot implements TimeslotInterface
             $start = Carbon::instance($start);
         }
 
-        $this->setStart($start);
+        $this->start = $start;
         $this->hours = $hours;
-        $this->setEnd($hours);
+        $this->minutes = $minutes;
+
+        $this->setStart();
+        $this->setEnd();
+    }
+
+    /**
+     * Alternative Timeslot constructor that allows fluent syntax.
+     *
+     * @param  Carbon\Carbon $start
+     * @param  integer $hours
+     * @param  integer $minutes
+     *
+     * @return App\Timeslot
+     */
+    public static function create($start, $hours = 1, $minutes = 0)
+    {
+        return new static($start, $hours, $minutes);
     }
 
     /**
      * Set the start date & time for the timeslot.
-     *
-     * @param Carbon\Carbon $start
      */
-    protected function setStart($start)
+    protected function setStart()
     {
-        $this->start = $start->minute(0)->second(0);
+        $this->start->second(0);
     }
 
     /**
-     * Set the end date & time for the timeslot.
-     *
-     * @param Carbon\Carbon $end
+     * Set the end date & time for the current instance.
+     * A timeslot ends always one second before the
+     * duration selected.
      */
-    protected function setEnd($hours)
+    protected function setEnd()
     {
-        // If the interval is 1 hour, set it to 0 hours, 59 mins and 59 secs
-        $hours -= 1;
+        $this->end = (clone $this->start)
+            ->addHours($this->hours)
+            ->addMinutes($this->minutes)
+            ->subSecond();
+    }
 
-        $this->end = clone $this->start;
-        $this->end->addHours($hours)->minute(59)->second(59);
+    /**
+     * Round up start and end time to the start and end of the current hour.
+     *
+     * @return this
+     */
+    public function round()
+    {
+        $this->start->minute(0);
+        $this->setEnd();
+
+        return $this;
     }
 
     /**
@@ -66,6 +94,7 @@ class Timeslot implements TimeslotInterface
      */
     public function addHour(int $hours = 1)
     {
+        // TODO: there is a syntax chaos here.
         $this->start = clone ($this->start)->addHour($hours);
         $this->end = clone ($this->end)->addHour($hours);
 
@@ -106,19 +135,6 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Alternative Timeslot constructor that allows fluent syntax.
-     *
-     * @param  Carbon\Carbon $start
-     * @param  integer $hours
-     *
-     * @return App\Timeslot
-     */
-    public static function create($start, $hours = 1)
-    {
-        return new static($start, $hours);
-    }
-
-    /**
      * Create a new Timeslot instance based on the current date / time.
      * It is still possible to specify a duration in hours.
      *
@@ -126,8 +142,8 @@ class Timeslot implements TimeslotInterface
      *
      * @return App\Timeslot
      */
-    public static function now($hours = 1)
+    public static function now($hours = 1, $minutes = 0)
     {
-        return static::create(Carbon::now(), $hours);
+        return new static(Carbon::now(), $hours, $minutes);
     }
 }
