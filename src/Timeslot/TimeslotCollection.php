@@ -44,7 +44,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      *
      * @return Carbon\Carbon
      */
-    public function start()
+    public function start() : Carbon
     {
         return reset($this->collection)->start();
     }
@@ -54,7 +54,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      *
      * @return Carbon\Carbon
      */
-    public function end()
+    public function end() : Carbon
     {
         return end($this->collection)->end();
     }
@@ -80,12 +80,11 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public static function create(Timeslot $timeslot, int $quantity = 1)
     {
         $collection = new static($timeslot);
-        $start = $collection->start();
 
         // The loop starts at one because one timeslot was already saved in the collection.
         for ($i = 1; $i < $quantity; $i++) {
-            $newSlot = new Timeslot(Carbon::instance($start)->addHour($i));
-            $collection->add($newSlot);
+            $timeslot = Timeslot::after($timeslot);
+            $collection->add($timeslot);
         }
 
         return $collection;
