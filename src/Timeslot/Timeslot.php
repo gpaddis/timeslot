@@ -41,6 +41,8 @@ class Timeslot implements TimeslotInterface
      *
      * @param  DateTime|string $start
      *
+     * @throws \Exception
+     * s
      * @return Carbon\Carbon
      */
     protected function parseInstance($start)
@@ -49,12 +51,12 @@ class Timeslot implements TimeslotInterface
             return Carbon::now();
         }
 
-        if (is_string($start)) {
-            return Carbon::parse($start);
-        }
-
         if ($start instanceof DateTime) {
             return Carbon::instance($start);
+        }
+
+        if (is_string($start)) {
+            return Carbon::parse($start);
         }
     }
 
