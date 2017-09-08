@@ -122,12 +122,38 @@ class Timeslot implements TimeslotInterface
         return $this;
     }
 
+    /**
+     * Return a timeslot identical to the one passed as argument, starting
+     * exactly where the first ends. Start time and duration are calculated
+     * based on the first timeslot's properties.
+     *
+     * @param  Timeslot $timeslot
+     *
+     * @return Timeslot
+     */
     public static function after(Timeslot $timeslot)
     {
         $start = clone $timeslot->start();
         $hours = $timeslot->hours();
         $minutes = $timeslot->minutes();
         return new static($start->addHours($hours)->addMinutes($minutes), $hours, $minutes);
+    }
+
+    /**
+     * Return a timeslot identical to the one passed as argument, ending
+     * exactly where the first starts. Start time and duration are calculated
+     * based on the first timeslot's properties.
+     *
+     * @param  Timeslot $timeslot
+     *
+     * @return Timeslot
+     */
+    public static function before(Timeslot $timeslot)
+    {
+        $start = clone $timeslot->start();
+        $hours = $timeslot->hours();
+        $minutes = $timeslot->minutes();
+        return new static($start->subHours($hours)->subMinutes($minutes), $hours, $minutes);
     }
 
     /**
