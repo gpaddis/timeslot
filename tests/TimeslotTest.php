@@ -89,4 +89,14 @@ class TimeslotTest extends TestCase
         $this->assertEquals('2017-01-18 15:00:00', $timeslot->start());
         $this->assertEquals('2017-01-18 15:59:59', $timeslot->end());
     }
+
+    /** @test */
+    public function it_returns_the_following_timeslot()
+    {
+        $timeslot = Timeslot::create('2017-01-18 15:00:00', 0, 30);
+        $followingTimeslot = Timeslot::after($timeslot);
+
+        $this->assertEquals('2017-01-18 15:30:00', $followingTimeslot->start());
+        $this->assertEquals('2017-01-18 15:59:59', $followingTimeslot->end());
+    }
 }

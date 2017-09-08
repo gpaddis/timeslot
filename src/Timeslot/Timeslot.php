@@ -122,6 +122,14 @@ class Timeslot implements TimeslotInterface
         return $this;
     }
 
+    public static function after(Timeslot $timeslot)
+    {
+        $start = clone $timeslot->start();
+        $hours = $timeslot->hours();
+        $minutes = $timeslot->minutes();
+        return new static($start->addHours($hours)->addMinutes($minutes), $hours, $minutes);
+    }
+
     /**
      * Get the start date & time.
      *
@@ -140,6 +148,26 @@ class Timeslot implements TimeslotInterface
     public function end()
     {
         return $this->end;
+    }
+
+    /**
+     * Get the hours.
+     *
+     * @return int
+     */
+    public function hours()
+    {
+        return $this->hours;
+    }
+
+    /**
+     * Get the minutes.
+     *
+     * @return int
+     */
+    public function minutes()
+    {
+        return $this->minutes;
     }
 
     /**
