@@ -17,12 +17,30 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
+    public function it_creates_a_timeslot_from_a_string()
+    {
+        $datetime = '2017-05-24 12:00:00';
+        $timeslot = Timeslot::create($datetime);
+
+        $this->assertEquals('2017-05-24 12:00:00', $timeslot->start()->toDateTimeString());
+        $this->assertEquals('2017-05-24 12:59:59', $timeslot->end()->toDateTimeString());
+    }
+
+    /** @test */
     public function it_creates_a_default_timeslot_when_no_arguments_are_passed()
     {
         $now = Carbon::now();
         $timeslot = new Timeslot;
 
         $this->assertTrue($now->between($timeslot->start(), $timeslot->end()));
+    }
+
+    /** @test */
+    public function carbon_throws_an_exception_if_a_wrong_argument_is_passed()
+    {
+        $this->expectException('Exception');
+
+        Timeslot::create('some_random_text');
     }
 
     /** @test */

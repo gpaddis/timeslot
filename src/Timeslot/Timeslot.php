@@ -20,16 +20,13 @@ class Timeslot implements TimeslotInterface
      * If no arguments are passed, it creates a 1-hour timeslot wrapping the
      * current date and time.
      *
-     * @param DateTime    $start
-     * @param int         $hours
+     * @param DateTime|string    $start
+     * @param int                $hours
+     * @param int                $minutes
      */
-    public function __construct(DateTime $start = null, int $hours = 1, int $minutes = 0)
+    public function __construct($start = null, int $hours = 1, int $minutes = 0)
     {
-        $start = $start ?: Carbon::now();
-
-        if (! $start instanceof Carbon) {
-            $start = Carbon::instance($start);
-        }
+        $start = $this->parseInstance($start);
 
         $this->start = clone $start;
         $this->hours = $hours;
@@ -37,6 +34,28 @@ class Timeslot implements TimeslotInterface
 
         $this->setStart();
         $this->setEnd();
+    }
+
+    /**
+     * Parse the argument $start passed to the constructor.
+     *
+     * @param  DateTime|string $start
+     *
+     * @return Carbon\Carbon
+     */
+    protected function parseInstance($start)
+    {
+        if (! $start) {
+            return Carbon::now();
+        }
+
+        if (is_string($start)) {
+            return Carbon::parse($start);
+        }
+
+        if ($start instanceof DateTime) {
+            return Carbon::instance($start);
+        }
     }
 
     /**
@@ -95,8 +114,8 @@ class Timeslot implements TimeslotInterface
     public function addHour(int $hours = 1)
     {
         // TODO: there is a syntax chaos here.
-        $this->start = clone ($this->start)->addHour($hours);
-        $this->end = clone ($this->end)->addHour($hours);
+        $this->start = (clone $this->start)->addHour($hours);
+        $this->end = (clone $this->end)->addHour($hours);
 
         return $this;
     }
