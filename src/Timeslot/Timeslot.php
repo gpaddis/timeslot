@@ -31,7 +31,7 @@ class Timeslot implements TimeslotInterface
             $start = Carbon::instance($start);
         }
 
-        $this->start = $start;
+        $this->start = clone $start;
         $this->hours = $hours;
         $this->minutes = $minutes;
 
@@ -144,6 +144,6 @@ class Timeslot implements TimeslotInterface
      */
     public static function now($hours = 1, $minutes = 0)
     {
-        return new static(Carbon::now(), $hours, $minutes);
+        return static::create(Carbon::now(), $hours, $minutes)->round();
     }
 }

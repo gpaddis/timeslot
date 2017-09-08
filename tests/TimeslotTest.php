@@ -26,9 +26,9 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    public function default_timeslot_and_now_timeslot_are_equal()
+    public function now_timeslot_is_a_rounded_timeslot()
     {
-        $timeslot1 = new Timeslot;
+        $timeslot1 = (new Timeslot)->round();
         $timeslot2 = Timeslot::now();
 
         $this->assertEquals($timeslot1, $timeslot2);
