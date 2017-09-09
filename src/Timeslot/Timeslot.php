@@ -163,7 +163,7 @@ class Timeslot implements TimeslotInterface
      */
     public function start()
     {
-        return $this->start;
+        return clone $this->start;
     }
 
     /**
@@ -173,7 +173,7 @@ class Timeslot implements TimeslotInterface
      */
     public function end()
     {
-        return $this->end;
+        return clone $this->end;
     }
 
     /**

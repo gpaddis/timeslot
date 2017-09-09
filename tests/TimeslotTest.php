@@ -109,4 +109,16 @@ class TimeslotTest extends TestCase
         $this->assertEquals('2017-01-18 14:30:00', $followingTimeslot->start());
         $this->assertEquals('2017-01-18 14:59:59', $followingTimeslot->end());
     }
+
+    /** @test */
+    public function external_manipulation_of_start_and_end_instances_does_not_affect_the_timeslot()
+    {
+        $timeslot = new Timeslot('2017-01-18 15:00:00');
+
+        $timeslot->start()->addMinutes(30);
+        $timeslot->end()->subHour();
+
+        $this->assertEquals('2017-01-18 15:00:00', $timeslot->start()->toDateTimeString());
+        $this->assertEquals('2017-01-18 15:59:59', $timeslot->end()->toDateTimeString());
+    }
 }
