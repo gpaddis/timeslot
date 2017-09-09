@@ -7,6 +7,7 @@ use Countable;
 use ArrayIterator;
 use Carbon\Carbon;
 use IteratorAggregate;
+use OutOfRangeException;
 
 class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Countable
 {
@@ -100,8 +101,21 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
         return count($this->collection);
     }
 
+    /**
+     * Get the child object in the current collection.
+     * 
+     * @param  int    $child
+     *
+     * @throws OutOfRangeException
+     * 
+     * @return TimeslotInterface
+     */
     public function get(int $child) : TimeslotInterface
     {
+        if (! array_key_exists($child, $this->collection)) {
+            throw new OutOfRangeException('The offset does not exist in this collection.');
+        }
+
         return $this->collection[$child];
     }
 }

@@ -55,4 +55,13 @@ class TimeslotCollectionTest extends TestCase
         $this->assertEquals($collection2, $collection1->get(1));
         $this->assertEquals(3, $collection1->get(1)->count());
     }
+
+    /** @test */
+    public function it_throws_an_exception_if_the_offset_is_undefined()
+    {
+        $this->expectException('OutOfRangeException');
+        $collection = TimeslotCollection::create(Timeslot::now());
+
+        $collection->get(20);
+    }
 }
