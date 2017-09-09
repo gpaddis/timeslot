@@ -21,7 +21,7 @@ class TimeslotCollectionTest extends TestCase
     public function it_updates_the_end_time_when_a_new_timeslot_is_added()
     {
         $timeslot1 = Timeslot::now();
-        $timeslot2 = Timeslot::now()->addHour();
+        $timeslot2 = Timeslot::after($timeslot1);
 
         $timeslotCollection = new TimeslotCollection($timeslot1);
         $timeslotCollection->add($timeslot2);

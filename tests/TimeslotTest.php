@@ -89,16 +89,6 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    public function it_moves_the_current_timeslot_two_hours_in_the_future()
-    {
-        $timeslot = Timeslot::create(Carbon::parse('2017-01-18 13:00:00'));
-        $timeslot->addHour(2);
-
-        $this->assertEquals('2017-01-18 15:00:00', $timeslot->start());
-        $this->assertEquals('2017-01-18 15:59:59', $timeslot->end());
-    }
-
-    /** @test */
     public function it_returns_the_following_timeslot()
     {
         $timeslot = Timeslot::create('2017-01-18 15:00:00', 0, 30);

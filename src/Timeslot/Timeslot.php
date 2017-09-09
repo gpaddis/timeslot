@@ -39,7 +39,7 @@ class Timeslot implements TimeslotInterface
 
     /**
      * Convert the $start argument passed to the constructor to a Carbon instance
-     * or let carbon throw an exception if the argument is invalid.
+     * or throw an exception if the argument is invalid.
      *
      * @param  DateTime|string $start
      *
@@ -62,7 +62,6 @@ class Timeslot implements TimeslotInterface
         }
 
         throw new InvalidArgumentException('The start time must be an instance of DateTime or a valid datetime string.');
-        
     }
 
     /**
@@ -109,20 +108,6 @@ class Timeslot implements TimeslotInterface
     {
         $this->start->minute(0);
         $this->setEnd();
-
-        return $this;
-    }
-
-    /**
-     * Add a specific number of $hours to the timeslot's start and end date & time.
-     *
-     * @param int $hours
-     */
-    public function addHour(int $hours = 1)
-    {
-        // TODO: there is a syntax chaos here.
-        $this->start = (clone $this->start)->addHour($hours);
-        $this->end = (clone $this->end)->addHour($hours);
 
         return $this;
     }
