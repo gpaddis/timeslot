@@ -115,7 +115,7 @@ class Timeslot implements TimeslotInterface
     /**
      * Return a timeslot identical to the one passed as argument, starting
      * exactly where the first ends. Start time and duration are calculated
-     * based on the first timeslot's properties.
+     * based on the properties of the timeslot passed.
      *
      * @param  Timeslot $timeslot
      *
@@ -130,9 +130,9 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Return a timeslot identical to the one passed as argument, ending
-     * exactly where the first starts. Start time and duration are calculated
-     * based on the first timeslot's properties.
+     * Return a timeslot identical to the one passed as argument, ending exactly
+     * where the first starts. Start time and duration are calculated
+     * based on the properties of the timeslot passed.
      *
      * @param  Timeslot $timeslot
      *
@@ -157,7 +157,7 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Get the end date / time.
+     * Get the end date & time.
      *
      * @return Carbon\Carbon
      */
@@ -200,15 +200,13 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Create a new Timeslot instance based on the current date / time.
-     * It is still possible to specify a duration in hours.
+     * Create a new Timeslot instance based on the current date & time and
+     * round it to the current hour's start and end time.
      *
-     * @param  integer $hours
-     *
-     * @return App\Timeslot
+     * @return Timeslot
      */
-    public static function now($hours = 1, $minutes = 0)
+    public static function now()
     {
-        return static::create(Carbon::now(), $hours, $minutes)->round();
+        return static::create(Carbon::now())->round();
     }
 }

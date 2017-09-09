@@ -33,11 +33,11 @@ class TimeslotCollectionTest extends TestCase
     /** @test */
     public function it_generates_a_collection_of_timeslots()
     {
-        $now = Timeslot::now();
-        $collection = TimeslotCollection::create($now, 8);
+        $datetime = Timeslot::create('2018-12-23 10:00:00');
+        $collection = TimeslotCollection::create($datetime, 8);
 
         $this->assertEquals(8, count($collection));
         $this->assertEquals(8, $collection->count());
-        $this->assertEquals(Timeslot::now(8)->end(), $collection->end());
+        $this->assertEquals('2018-12-23 17:59:59', $collection->end()->toDateTimeString());
     }
 }
