@@ -99,4 +99,9 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     {
         return count($this->collection);
     }
+
+    public function get(int $child) : TimeslotInterface
+    {
+        return $this->collection[$child];
+    }
 }

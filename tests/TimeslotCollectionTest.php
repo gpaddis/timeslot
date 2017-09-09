@@ -40,4 +40,19 @@ class TimeslotCollectionTest extends TestCase
         $this->assertEquals(8, $collection->count());
         $this->assertEquals('2018-12-23 17:59:59', $collection->end()->toDateTimeString());
     }
+
+    /** @test */
+    public function it_can_contain_a_collection_of_timeslots()
+    {
+        $timeslot1 = Timeslot::now();
+        $timeslot2 = Timeslot::after($timeslot1);
+        $collection1 = TimeslotCollection::create($timeslot1);
+        $collection2 = TimeslotCollection::create($timeslot2, 3);
+
+        $collection1->add($collection2);
+
+        $this->assertEquals(2, $collection1->count());
+        $this->assertEquals($collection2, $collection1->get(1));
+        $this->assertEquals(3, $collection1->get(1)->count());
+    }
 }
