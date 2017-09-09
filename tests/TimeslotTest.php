@@ -36,11 +36,19 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    public function carbon_throws_an_exception_if_a_wrong_argument_is_passed()
+    public function carbon_throws_an_exception_if_the_string_cannot_be_parsed()
     {
         $this->expectException('Exception');
 
         Timeslot::create('some_random_text');
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_an_invalid_argument_is_passed()
+    {
+        $this->expectException('InvalidArgumentException');
+
+        Timeslot::create(16546546546546);
     }
 
     /** @test */

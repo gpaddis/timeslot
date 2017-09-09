@@ -1,5 +1,6 @@
 # timeslot
-A simple timeslot management API.
+A simple yet flexible timeslot management API.
+
 [![Build Status](https://travis-ci.org/gpaddis/timeslot.svg?branch=master)](https://travis-ci.org/gpaddis/timeslot)
 
 ## Usage

@@ -5,6 +5,7 @@ namespace Timeslot;
 use DateTime;
 use ArrayIterator;
 use Carbon\Carbon;
+use InvalidArgumentException;
 
 class Timeslot implements TimeslotInterface
 {
@@ -17,8 +18,8 @@ class Timeslot implements TimeslotInterface
      * The Timeslot constructor accepts a DateTime instance, turns it into a
      * Carbon instance and sets start and end time according to the duration
      * provided (default = 1 hour, 0 minutes).
-     * If no arguments are passed, it creates a 1-hour timeslot wrapping the
-     * current date and time.
+     * If no arguments are passed, it creates a 1-hour timeslot starting at
+     * the moment of instantiation (hh:mm:00).
      *
      * @param DateTime|string    $start
      * @param int                $hours
@@ -37,7 +38,8 @@ class Timeslot implements TimeslotInterface
     }
 
     /**
-     * Parse the argument $start passed to the constructor.
+     * Convert the $start argument passed to the constructor to a Carbon instance
+     * or let carbon throw an exception if the argument is invalid.
      *
      * @param  DateTime|string $start
      *
@@ -58,6 +60,9 @@ class Timeslot implements TimeslotInterface
         if (is_string($start)) {
             return Carbon::parse($start);
         }
+
+        throw new InvalidArgumentException('The start time must be an instance of DateTime or a valid datetime string.');
+        
     }
 
     /**
