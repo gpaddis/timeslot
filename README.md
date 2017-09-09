@@ -1,6 +1,6 @@
 # timeslot
-[![Build Status](https://travis-ci.org/gpaddis/timeslot.svg?branch=master)](https://travis-ci.org/gpaddis/timeslot)
 A simple timeslot management API.
+[![Build Status](https://travis-ci.org/gpaddis/timeslot.svg?branch=master)](https://travis-ci.org/gpaddis/timeslot)
 
 ## Usage
 ### Creating a new timeslot
@@ -31,7 +31,7 @@ Very often, I want to create a default 1-hour timeslot that fits the current hou
 $timeslot = Timeslot::now(); // Duration: 1h, start: xx:00:00, end: xx:59:59
 ```
 ### Getting start and end
-Start and end time return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. toDateTimeString(), timestamp(), etc.: see the [API docs](http://carbon.nesbot.com/docs/)). 
+Start() and end() methods return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. toDateTimeString(), timestamp(), etc.: see the [API docs](http://carbon.nesbot.com/docs/)). 
 To get the start and end date of a timeslot, call its `start()` and `end()` methods:
 ```php
 $timeslot = Timeslot::create('2017-08-19 15:08:35')->round();
@@ -40,7 +40,7 @@ $timeslot->start()->toDateTimeString(); // Returns 2017-08-19 15:00:00
 $timeslot->end()->toDateTimeString(); // Returns 2017-08-19 15:59:59
 ```
 ### Creating previous and next timeslot with after() and before()
-These methods create timeslots of the same duration of the reference timeslot. The method `before()` will create a timeslot ending where the current starts, the method `after()` will create one that starts where the current ends.
+These methods create timeslots with a duration identical to that of the timeslot passed. The method `before()` will create a timeslot ending where the current starts, the method `after()` will create one that starts where the current ends.
 ```php
 $timeslot = new Timeslot('2017-08-19 15:00:00', 0, 30); // Duration: 30m, start: 15:00:00, end: 15:29:59
 $nextTimeslot = Timeslot::after($timeslot); // Duration: 30m, start: 15:30:00, end: 15:59:59
