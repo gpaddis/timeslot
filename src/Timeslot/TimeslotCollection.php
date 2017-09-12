@@ -2,10 +2,10 @@
 
 namespace Timeslot;
 
-use Countable;
-use Exception;
 use ArrayIterator;
 use Carbon\Carbon;
+use Countable;
+use Exception;
 use IteratorAggregate;
 use OutOfRangeException;
 
@@ -14,7 +14,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     /**
      * TimeslotCollection properties.
      *
-     * @var array $collection The collection of timeslot components.
+     * @var array The collection of timeslot components.
      */
     protected $collection = [];
 
@@ -54,6 +54,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
                 $start = $timeslot->start();
             }
         }
+
         return $start;
     }
 
@@ -71,6 +72,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
                 $end = $timeslot->end();
             }
         }
+
         return $end;
     }
 
@@ -87,7 +89,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     /**
      * Get the child object in the current collection.
      *
-     * @param  int    $child
+     * @param int $child
      *
      * @throws OutOfRangeException
      *
@@ -125,8 +127,8 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     /**
      * Create a TimeslotCollection of simple Timeslots.
      *
-     * @param  Timeslot     $timeslot
-     * @param  int|integer  $quantity
+     * @param Timeslot $timeslot
+     * @param int|int  $quantity
      *
      * @return static
      */

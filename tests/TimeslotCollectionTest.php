@@ -1,7 +1,7 @@
 <?php
 
-use Timeslot\Timeslot;
 use PHPUnit\Framework\TestCase;
+use Timeslot\Timeslot;
 use Timeslot\TimeslotCollection;
 
 class TimeslotCollectionTest extends TestCase
@@ -49,7 +49,7 @@ class TimeslotCollectionTest extends TestCase
     /** @test */
     public function it_removes_a_timeslot_from_a_collection()
     {
-        $timeslot =  Timeslot::create('2018-01-10 13:00:00');
+        $timeslot = Timeslot::create('2018-01-10 13:00:00');
         $collection = TimeslotCollection::create($timeslot, 5);
 
         $collection->remove(0);
@@ -63,7 +63,7 @@ class TimeslotCollectionTest extends TestCase
     {
         $this->expectException('Exception');
 
-        $timeslot =  Timeslot::create('2018-01-10 13:00:00');
+        $timeslot = Timeslot::create('2018-01-10 13:00:00');
         $collection = TimeslotCollection::create($timeslot);
 
         $collection->remove(0);

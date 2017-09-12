@@ -1,8 +1,8 @@
 <?php
 
 use Carbon\Carbon;
-use Timeslot\Timeslot;
 use PHPUnit\Framework\TestCase;
+use Timeslot\Timeslot;
 
 class TimeslotTest extends TestCase
 {
@@ -30,7 +30,7 @@ class TimeslotTest extends TestCase
     public function it_creates_a_default_timeslot_when_no_arguments_are_passed()
     {
         $now = Carbon::now();
-        $timeslot = new Timeslot;
+        $timeslot = new Timeslot();
 
         $this->assertTrue($now->between($timeslot->start(), $timeslot->end()));
     }
@@ -54,7 +54,7 @@ class TimeslotTest extends TestCase
     /** @test */
     public function now_timeslot_is_a_rounded_timeslot()
     {
-        $timeslot1 = (new Timeslot)->round();
+        $timeslot1 = (new Timeslot())->round();
         $timeslot2 = Timeslot::now();
 
         $this->assertEquals($timeslot1, $timeslot2);
