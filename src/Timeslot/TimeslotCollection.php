@@ -46,7 +46,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function start() : Carbon
     {
-        $start = $this->collection[0]->start();
+        $start = current($this->collection)->start();
 
         foreach ($this->collection as $timeslot) {
             if ($timeslot->start()->lt($start)) {
@@ -63,7 +63,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function end() : Carbon
     {
-        $end = $this->collection[0]->end();
+        $end = current($this->collection)->end();
 
         foreach ($this->collection as $timeslot) {
             if ($timeslot->end()->gt($end)) {
@@ -81,6 +81,44 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function add(TimeslotInterface $timeslot)
     {
         $this->collection[] = $timeslot;
+    }
+
+    /**
+     * Get the child object in the current collection.
+     *
+     * @param  int    $child
+     *
+     * @throws OutOfRangeException
+     *
+     * @return TimeslotInterface
+     */
+    public function get(int $offset) : TimeslotInterface
+    {
+        if (! array_key_exists($offset, $this->collection)) {
+            throw new OutOfRangeException('The offset does not exist in this collection.');
+        }
+
+        return $this->collection[$offset];
+    }
+
+    /**
+     * Remove a Timeslot from the collection.
+     *
+     * @param int $offset
+     *
+     * @return void
+     */
+    public function remove(int $offset)
+    {
+        if (! array_key_exists($offset, $this->collection)) {
+            throw new OutOfRangeException('The offset does not exist in this collection.');
+        }
+
+        if (count($this->collection) <= 1) {
+            throw new \Exception('You cannot remove all timeslots in a collection.');
+        }
+
+        unset($this->collection[$offset]);
     }
 
     /**
@@ -112,23 +150,5 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function count()
     {
         return count($this->collection);
-    }
-
-    /**
-     * Get the child object in the current collection.
-     *
-     * @param  int    $child
-     *
-     * @throws OutOfRangeException
-     *
-     * @return TimeslotInterface
-     */
-    public function get(int $child) : TimeslotInterface
-    {
-        if (! array_key_exists($child, $this->collection)) {
-            throw new OutOfRangeException('The offset does not exist in this collection.');
-        }
-
-        return $this->collection[$child];
     }
 }

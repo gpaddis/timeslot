@@ -47,6 +47,29 @@ class TimeslotCollectionTest extends TestCase
     }
 
     /** @test */
+    public function it_removes_a_timeslot_from_a_collection()
+    {
+        $timeslot =  Timeslot::create('2018-01-10 13:00:00');
+        $collection = TimeslotCollection::create($timeslot, 5);
+
+        $collection->remove(0);
+
+        $this->assertEquals('2018-01-10 14:00:00', $collection->start()->toDateTimeString());
+        $this->assertEquals('2018-01-10 17:59:59', $collection->end()->toDateTimeString());
+    }
+
+    /** @test */
+    public function one_cannot_remove_all_timeslots_from_a_collection()
+    {
+        $this->expectException('Exception');
+
+        $timeslot =  Timeslot::create('2018-01-10 13:00:00');
+        $collection = TimeslotCollection::create($timeslot);
+
+        $collection->remove(0);
+    }
+
+    /** @test */
     public function it_can_contain_a_collection_of_timeslots()
     {
         $timeslot1 = Timeslot::now();
