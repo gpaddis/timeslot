@@ -3,6 +3,7 @@
 namespace Timeslot;
 
 use Countable;
+use Exception;
 use ArrayIterator;
 use Carbon\Carbon;
 use IteratorAggregate;
@@ -94,7 +95,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function get(int $offset) : TimeslotInterface
     {
-        if (! array_key_exists($offset, $this->collection)) {
+        if (!array_key_exists($offset, $this->collection)) {
             throw new OutOfRangeException('The offset does not exist in this collection.');
         }
 
@@ -110,12 +111,12 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function remove(int $offset)
     {
-        if (! array_key_exists($offset, $this->collection)) {
+        if (!array_key_exists($offset, $this->collection)) {
             throw new OutOfRangeException('The offset does not exist in this collection.');
         }
 
         if (count($this->collection) <= 1) {
-            throw new \Exception('You cannot remove all timeslots in a collection.');
+            throw new Exception('You cannot remove all timeslots in a collection.');
         }
 
         unset($this->collection[$offset]);
