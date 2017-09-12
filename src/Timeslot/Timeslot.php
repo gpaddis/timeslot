@@ -3,7 +3,6 @@
 namespace Timeslot;
 
 use DateTime;
-use ArrayIterator;
 use Carbon\Carbon;
 use InvalidArgumentException;
 
@@ -43,9 +42,9 @@ class Timeslot implements TimeslotInterface
      *
      * @param  DateTime|string $start
      *
-     * @throws \Exception
-     * s
      * @return Carbon\Carbon
+     *
+     * @throws \Exception
      */
     protected function parseInstance($start)
     {

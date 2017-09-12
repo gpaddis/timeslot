@@ -61,7 +61,7 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
-    function it_creates_a_custom_timeslot()
+    public function it_creates_a_custom_timeslot()
     {
         $datetime = Carbon::create('2019', '11', '4', '12', '10', '36');
         $timeslot = Timeslot::create($datetime, 3)->round();

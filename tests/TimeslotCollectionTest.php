@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Timeslot\Timeslot;
 use PHPUnit\Framework\TestCase;
 use Timeslot\TimeslotCollection;
@@ -18,16 +17,22 @@ class TimeslotCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_the_end_time_when_a_new_timeslot_is_added()
+    public function it_updates_the_collection_each_time_a_new_timeslot_is_added()
     {
-        $timeslot1 = Timeslot::now();
-        $timeslot2 = Timeslot::after($timeslot1);
+        $timeslot1 = Timeslot::create('2017-02-11 10:00:00');
+        $timeslot2 = Timeslot::create('2017-02-11 11:00:00');
+        $timeslot3 = Timeslot::create('2017-02-11 09:00:00');
+        $timeslot4 = Timeslot::create('2017-02-11 05:00:00');
 
         $timeslotCollection = new TimeslotCollection($timeslot1);
         $timeslotCollection->add($timeslot2);
+        $timeslotCollection->add($timeslot3);
 
-        $this->assertEquals($timeslot1->start(), $timeslotCollection->start());
-        $this->assertEquals($timeslot2->end(), $timeslotCollection->end());
+        // Add a nested timeslot to $timeslotCollection
+        $timeslotCollection->add(TimeslotCollection::create($timeslot4, 4));
+
+        $this->assertEquals('2017-02-11 05:00:00', $timeslotCollection->start()->toDateTimeString());
+        $this->assertEquals('2017-02-11 11:59:59', $timeslotCollection->end()->toDateTimeString());
     }
 
     /** @test */

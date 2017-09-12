@@ -2,7 +2,6 @@
 
 namespace Timeslot;
 
-use DateTime;
 use Countable;
 use ArrayIterator;
 use Carbon\Carbon;
@@ -47,7 +46,14 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function start() : Carbon
     {
-        return reset($this->collection)->start();
+        $start = $this->collection[0]->start();
+
+        foreach ($this->collection as $timeslot) {
+            if ($timeslot->start()->lt($start)) {
+                $start = $timeslot->start();
+            }
+        }
+        return $start;
     }
 
     /**
@@ -57,7 +63,14 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function end() : Carbon
     {
-        return end($this->collection)->end();
+        $end = $this->collection[0]->end();
+
+        foreach ($this->collection as $timeslot) {
+            if ($timeslot->end()->gt($end)) {
+                $end = $timeslot->end();
+            }
+        }
+        return $end;
     }
 
     /**
@@ -103,11 +116,11 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
 
     /**
      * Get the child object in the current collection.
-     * 
+     *
      * @param  int    $child
      *
      * @throws OutOfRangeException
-     * 
+     *
      * @return TimeslotInterface
      */
     public function get(int $child) : TimeslotInterface
