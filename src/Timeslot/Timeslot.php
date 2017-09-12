@@ -2,8 +2,8 @@
 
 namespace Timeslot;
 
-use DateTime;
 use Carbon\Carbon;
+use DateTime;
 use InvalidArgumentException;
 
 class Timeslot implements TimeslotInterface
@@ -20,9 +20,9 @@ class Timeslot implements TimeslotInterface
      * If no arguments are passed, it creates a 1-hour timeslot starting at
      * the moment of instantiation (hh:mm:00).
      *
-     * @param DateTime|string    $start
-     * @param int                $hours
-     * @param int                $minutes
+     * @param DateTime|string $start
+     * @param int             $hours
+     * @param int             $minutes
      */
     public function __construct($start = null, int $hours = 1, int $minutes = 0)
     {
@@ -40,15 +40,15 @@ class Timeslot implements TimeslotInterface
      * Convert the $start argument passed to the constructor to a Carbon instance
      * or throw an exception if the argument is invalid.
      *
-     * @param  DateTime|string $start
-     *
-     * @return Carbon\Carbon
+     * @param DateTime|string $start
      *
      * @throws \Exception
+     *
+     * @return Carbon\Carbon
      */
     protected function parseInstance($start)
     {
-        if (! $start) {
+        if (!$start) {
             return Carbon::now();
         }
 
@@ -66,9 +66,9 @@ class Timeslot implements TimeslotInterface
     /**
      * Alternative Timeslot constructor that allows fluent syntax.
      *
-     * @param  Carbon\Carbon $start
-     * @param  integer $hours
-     * @param  integer $minutes
+     * @param Carbon\Carbon $start
+     * @param int           $hours
+     * @param int           $minutes
      *
      * @return App\Timeslot
      */
@@ -116,7 +116,7 @@ class Timeslot implements TimeslotInterface
      * exactly where the first ends. Start time and duration are calculated
      * based on the properties of the timeslot passed.
      *
-     * @param  Timeslot $timeslot
+     * @param Timeslot $timeslot
      *
      * @return Timeslot
      */
@@ -125,6 +125,7 @@ class Timeslot implements TimeslotInterface
         $start = clone $timeslot->start();
         $hours = $timeslot->hours();
         $minutes = $timeslot->minutes();
+
         return new static($start->addHours($hours)->addMinutes($minutes), $hours, $minutes);
     }
 
@@ -133,7 +134,7 @@ class Timeslot implements TimeslotInterface
      * where the first starts. Start time and duration are calculated
      * based on the properties of the timeslot passed.
      *
-     * @param  Timeslot $timeslot
+     * @param Timeslot $timeslot
      *
      * @return Timeslot
      */
@@ -142,6 +143,7 @@ class Timeslot implements TimeslotInterface
         $start = clone $timeslot->start();
         $hours = $timeslot->hours();
         $minutes = $timeslot->minutes();
+
         return new static($start->subHours($hours)->subMinutes($minutes), $hours, $minutes);
     }
 
@@ -194,7 +196,7 @@ class Timeslot implements TimeslotInterface
     {
         return [
             'start' => $this->start(),
-            'end' => $this->end()
+            'end'   => $this->end(),
         ];
     }
 
