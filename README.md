@@ -7,16 +7,16 @@ A simple yet flexible timeslot management API.
 ### Creating a new timeslot
 **Timeslot** uses [Carbon](https://github.com/briannesbitt/Carbon) extensively. You can create a new timeslot passing it a Carbon instance, but you can also use a DateTime instance or a valid datetime string instead. The complete syntax is `new Timeslot($start, $hours, $minutes)`.
 ```php
-// Create a 30-minutes timeslot starting at 15:00 
-$timeslot = new Timeslot(Carbon::parse('2017-08-19 15:00:00', 0, 30)); 
+// Create a 30-minutes timeslot starting at 15:00
+$timeslot = new Timeslot(Carbon::parse('2017-08-19 15:00:00', 0, 30));
 
 // Create a 90-minutes Timeslot from a DateTime instance
-$timeslot = new Timeslot(new DateTime('2010-04-24 10:00:00'), 1, 30); 
+$timeslot = new Timeslot(new DateTime('2010-04-24 10:00:00'), 1, 30);
 
 // Create a default timeslot (1 hour) from a string starting at 15:00
-$timeslot = new Timeslot('2017-08-19 15:00:00'); 
+$timeslot = new Timeslot('2017-08-19 15:00:00');
 ```
-If you don't pass any arguments, the timeslot will start at the moment of the instantiation and will have a **default duration of one hour**. The seconds will be rounded up to the minute begin, so that the moment of instantiation is included in the timeslot.
+If you don't pass any arguments, the timeslot will start at the moment of the instantiation and will have a **default duration of one hour**. The seconds will be rounded up to the minute start, to include the moment of instantiation in the timeslot.
 ```php
 // Timeslot created on 2017-08-19 15:08:35, its start time is set at 15:08:00
 $timeslot = new Timeslot();
@@ -32,7 +32,7 @@ Very often, I want to create a default 1-hour timeslot that fits the current hou
 $timeslot = Timeslot::now(); // Duration: 1h, start: xx:00:00, end: xx:59:59
 ```
 ### Getting start and end
-Start() and end() methods return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. toDateTimeString(), timestamp(), etc.: see the [API docs](http://carbon.nesbot.com/docs/)). 
+Start() and end() methods return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. toDateTimeString(), timestamp(), etc.: see the [API docs](http://carbon.nesbot.com/docs/)).
 To get the start and end date of a timeslot, call its `start()` and `end()` methods:
 ```php
 $timeslot = Timeslot::create('2017-08-19 15:08:35')->round();
@@ -46,4 +46,34 @@ These methods create timeslots with a duration identical to that of the timeslot
 $timeslot = new Timeslot('2017-08-19 15:00:00', 0, 30); // Duration: 30m, start: 15:00:00, end: 15:29:59
 $nextTimeslot = Timeslot::after($timeslot); // Duration: 30m, start: 15:30:00, end: 15:59:59
 $previousTimeslot = Timeslot::before($timeslot); // Duration: 30m, start: 14:30:00, end: 14:59:59
+```
+
+## Timeslot collections
+The `TimeslotCollection` class allows to manage of **groups of Timeslots**:
+```php
+$timeslot = Timeslot::create('2018-12-23 10:00:00');
+$collection = TimeslotCollection::create($timeslot, 8);
+// Creates a collection containing eight 1-hour timeslots, starting at 10:00:00 and ending at 17:59:59.
+```
+You can add timeslots to the collection calling `->add($timeslot)` from the instance:
+```php
+$timeslot = Timeslot::create('2018-12-23 18:00:00');
+$collection->add($timeslot);
+// Appends a timeslot to the collection: now the end time is set at 18:59:59.
+```
+You can as well nest an arbitrary number of TimeslotCollections:
+```php
+$hours = Timeslot::create('2018-12-23 10:00:00');
+$tenMinutes = Timeslot::create('2018-12-23 10:00:00', 0, 10);
+
+$collection->add($timeslot);
+// Appends a timeslot to the collection: now the end time is set at 18:59:59.
+```
+### Getting a timeslot in a collection
+You can use `->get($offset)` to get a Timeslot:
+```php
+$timeslot = Timeslot::create('2018-12-23 10:00:00');
+$collection = TimeslotCollection::create($timeslot, 8);
+
+$collection->get(1)->start()->toDateTimeString(); // Returns 2018-12-23 11:00:00
 ```

@@ -58,6 +58,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function end() : Carbon
     {
         $this->sort();
+
         return end($this->collection)->end();
     }
 
