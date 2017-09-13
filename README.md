@@ -61,19 +61,28 @@ $timeslot = Timeslot::create('2018-12-23 18:00:00');
 $collection->add($timeslot);
 // Appends a timeslot to the collection: now the end time is set at 18:59:59.
 ```
-You can as well nest an arbitrary number of TimeslotCollections:
-```php
-$hours = Timeslot::create('2018-12-23 10:00:00');
-$tenMinutes = Timeslot::create('2018-12-23 10:00:00', 0, 10);
-
-$collection->add($timeslot);
-// Appends a timeslot to the collection: now the end time is set at 18:59:59.
-```
 ### Getting a timeslot in a collection
 You can use `->get($offset)` to get a Timeslot:
 ```php
 $timeslot = Timeslot::create('2018-12-23 10:00:00');
 $collection = TimeslotCollection::create($timeslot, 8);
 
-$collection->get(1)->start()->toDateTimeString(); // Returns 2018-12-23 11:00:00
+$collection->get(1)->start(); // 2018-12-23 11:00:00
 ```
+You can also nest an arbitrary number of TimeslotCollections and retrieve them:
+```php
+$hours = Timeslot::create('2018-12-23 10:00:00');
+$tenMinutes = Timeslot::create('2018-12-23 13:00:00', 0, 10);
+$tenMinutesCollection = TimeslotCollection::create($tenMinutes, 6);
+
+$collection = TimeslotCollection::create($hours, 3);
+$collection->add($tenMinutesCollection);
+
+$collection->get(0)->start(); // 2018-12-23 10:00:00
+$collection->get(1)->start(); // 2018-12-23 11:00:00
+$collection->get(2)->start(); // 2018-12-23 12:00:00
+$collection->get(3); // TimeslotCollection, 6 * 10 minutes
+$collection->get(3)->get(0)->start(); // 2018-12-23 13:00:00
+$collection->get(3)->get(1)->start(); // 2018-12-23 13:10:00
+```
+...and so on!
