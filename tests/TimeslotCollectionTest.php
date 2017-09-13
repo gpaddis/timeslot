@@ -24,15 +24,50 @@ class TimeslotCollectionTest extends TestCase
         $timeslot3 = Timeslot::create('2017-02-11 09:00:00');
         $timeslot4 = Timeslot::create('2017-02-11 05:00:00');
 
-        $timeslotCollection = new TimeslotCollection($timeslot1);
-        $timeslotCollection->add($timeslot2);
-        $timeslotCollection->add($timeslot3);
+        $collection = new TimeslotCollection($timeslot1);
+        $collection->add($timeslot2);
+        $collection->add($timeslot3);
 
-        // Add a nested timeslot to $timeslotCollection
-        $timeslotCollection->add(TimeslotCollection::create($timeslot4, 4));
+        // Add a nested timeslot to $collection
+        $collection->add(TimeslotCollection::create($timeslot4, 4));
 
-        $this->assertEquals('2017-02-11 05:00:00', $timeslotCollection->start()->toDateTimeString());
-        $this->assertEquals('2017-02-11 11:59:59', $timeslotCollection->end()->toDateTimeString());
+        $this->assertEquals('2017-02-11 05:00:00', $collection->start()->toDateTimeString());
+        $this->assertEquals('2017-02-11 11:59:59', $collection->end()->toDateTimeString());
+    }
+
+    /** @test */
+    public function it_sorts_a_timeslot_collection()
+    {
+        $timeslot1 = Timeslot::create('2017-02-11 09:00:00');
+        $timeslot2 = Timeslot::create('2017-02-11 10:00:00');
+        $timeslot3 = Timeslot::create('2017-02-11 11:00:00');
+        $timeslot4 = Timeslot::create('2017-02-11 12:00:00');
+        $timeslot5 = Timeslot::create('2017-02-11 13:00:00');
+
+        $collection = TimeslotCollection::create($timeslot3)
+        ->add($timeslot4)
+        ->add($timeslot5)
+        ->add($timeslot1)
+        ->add($timeslot2);
+
+        $collection->sort();
+
+        $this->assertEquals(
+            [
+                $timeslot1,
+                $timeslot2,
+                $timeslot3,
+                $timeslot4,
+                $timeslot5,
+            ],
+            [
+                $collection->get(0),
+                $collection->get(1),
+                $collection->get(2),
+                $collection->get(3),
+                $collection->get(4),
+            ]
+        );
     }
 
     /** @test */

@@ -47,15 +47,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function start() : Carbon
     {
-        $start = current($this->collection)->start();
-
-        foreach ($this->collection as $timeslot) {
-            if ($timeslot->start()->lt($start)) {
-                $start = $timeslot->start();
-            }
-        }
-
-        return $start;
+        return $this->sort()->collection[0]->start();
     }
 
     /**
@@ -84,6 +76,8 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function add(TimeslotInterface $timeslot)
     {
         $this->collection[] = $timeslot;
+
+        return $this;
     }
 
     /**
@@ -153,5 +147,19 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function count()
     {
         return count($this->collection);
+    }
+
+    /**
+     * Sort the collection based on the start time of each of Timeslots contained.
+     *
+     * @return void
+     */
+    public function sort()
+    {
+        usort($this->collection, function ($left, $right) {
+            return $left->start()->timestamp - $right->start()->timestamp;
+        });
+
+        return $this;
     }
 }
