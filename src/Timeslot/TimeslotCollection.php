@@ -57,8 +57,6 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function end() : Carbon
     {
-        $this->sort();
-
         return end($this->collection)->end();
     }
 
@@ -70,7 +68,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function add(TimeslotInterface $timeslot)
     {
         $this->collection[] = $timeslot;
-
+        $this->sort();
         return $this;
     }
 
@@ -85,8 +83,6 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function get(int $offset) : TimeslotInterface
     {
-        $this->sort();
-
         if (!array_key_exists($offset, $this->collection)) {
             throw new OutOfRangeException('The offset does not exist in this collection.');
         }
@@ -112,6 +108,8 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
         }
 
         unset($this->collection[$offset]);
+
+        $this->sort();
     }
 
     /**
