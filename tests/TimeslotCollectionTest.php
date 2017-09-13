@@ -50,8 +50,6 @@ class TimeslotCollectionTest extends TestCase
         ->add($timeslot1)
         ->add($timeslot2);
 
-        $collection->sort();
-
         $this->assertEquals(
             [
                 $timeslot1,
