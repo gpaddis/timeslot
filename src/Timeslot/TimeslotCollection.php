@@ -68,8 +68,8 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     public function add(TimeslotInterface $timeslot)
     {
         $this->collection[] = $timeslot;
-        $this->sort();
-        return $this;
+
+        return $this->sort();
     }
 
     /**
@@ -95,7 +95,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      *
      * @param int $offset
      *
-     * @return void
+     * @return this
      */
     public function remove(int $offset)
     {
@@ -116,11 +116,11 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      * Create a TimeslotCollection of simple Timeslots.
      *
      * @param Timeslot $timeslot
-     * @param int|int  $quantity
+     * @param int      $quantity
      *
      * @return static
      */
-    public static function create(Timeslot $timeslot, int $quantity = 1)
+    public static function create(Timeslot $timeslot, int $quantity = 1) : TimeslotCollection
     {
         $collection = new static($timeslot);
 
