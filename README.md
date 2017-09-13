@@ -2,6 +2,7 @@
 A simple yet flexible timeslot management API.
 
 [![Build Status](https://travis-ci.org/gpaddis/timeslot.svg?branch=master)](https://travis-ci.org/gpaddis/timeslot)
+[![StyleCI](https://styleci.io/repos/102377872/shield?branch=master)](https://styleci.io/repos/102377872)
 
 ## Usage
 ### Creating a new timeslot
@@ -49,7 +50,7 @@ $previousTimeslot = Timeslot::before($timeslot); // Duration: 30m, start: 14:30:
 ```
 
 ## Timeslot collections
-The `TimeslotCollection` class allows to manage of **groups of Timeslots**:
+The `TimeslotCollection` class allows you to manage of **groups of Timeslots**:
 ```php
 $timeslot = Timeslot::create('2018-12-23 10:00:00');
 $collection = TimeslotCollection::create($timeslot, 8);
