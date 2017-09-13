@@ -151,7 +151,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
     protected function sort()
     {
         usort($this->collection, function ($left, $right) {
-            return $left->start()->timestamp - $right->start()->timestamp;
+            return $left->start()->lt($right->start()) ? -1 : 1;
         });
 
         return $this;
