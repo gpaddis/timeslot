@@ -134,6 +134,6 @@ class TimeslotCollectionTest extends TestCase
         $timeslot = Timeslot::now();
         $collection = TimeslotCollection::create($timeslot);
 
-        $collection->add(clone $timeslot);
+        $collection->add($timeslot);
     }
 }
