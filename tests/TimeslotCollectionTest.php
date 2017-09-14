@@ -92,7 +92,7 @@ class TimeslotCollectionTest extends TestCase
     }
 
     /** @test */
-    public function one_cannot_remove_all_timeslots_from_a_collection()
+    public function it_cannot_remove_all_timeslots_from_a_collection()
     {
         $this->expectException('Exception');
 
@@ -124,5 +124,16 @@ class TimeslotCollectionTest extends TestCase
         $collection = TimeslotCollection::create(Timeslot::now());
 
         $collection->get(20);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_the_timeslot_already_exists_in_the_collection()
+    {
+        $this->expectException('Exception');
+
+        $timeslot = Timeslot::now();
+        $collection = TimeslotCollection::create($timeslot);
+
+        $collection->add(clone $timeslot);
     }
 }

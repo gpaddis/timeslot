@@ -26,7 +26,7 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function __construct(TimeslotInterface $timeslot)
     {
-        $this->collection[] = $timeslot;
+        $this->collection[] = clone $timeslot;
     }
 
     /**
@@ -67,7 +67,11 @@ class TimeslotCollection implements IteratorAggregate, TimeslotInterface, Counta
      */
     public function add(TimeslotInterface $timeslot)
     {
-        $this->collection[] = $timeslot;
+        if (in_array($timeslot, $this->collection)) {
+            throw new Exception('Timeslot already exists in this collection');
+        }
+
+        $this->collection[] = clone $timeslot;
 
         return $this->sort();
     }

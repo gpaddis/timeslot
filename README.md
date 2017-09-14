@@ -33,7 +33,7 @@ Very often, I want to create a default 1-hour timeslot that fits the current hou
 $timeslot = Timeslot::now(); // Duration: 1h, start: xx:00:00, end: xx:59:59
 ```
 ### Getting start and end
-Start() and end() methods return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. toDateTimeString(), timestamp(), etc.: see the [API docs](http://carbon.nesbot.com/docs/)).
+Start() and end() methods return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. ->toDateTimeString(), ->timestamp, etc.: see the [API docs](http://carbon.nesbot.com/docs/)).
 To get the start and end date of a timeslot, call its `start()` and `end()` methods:
 ```php
 $timeslot = Timeslot::create('2017-08-19 15:08:35')->round();
