@@ -61,6 +61,15 @@ class TimeslotTest extends TestCase
     }
 
     /** @test */
+    public function it_rounds_a_timeslot_that_spans_many_hours()
+    {
+        $timeslot = Timeslot::create('2019-11-04 12:15:15', 3, 30)->round();
+
+        $this->assertEquals('2019-11-04 12:00:00', $timeslot->start()->toDateTimeString());
+        $this->assertEquals('2019-11-04 15:29:59', $timeslot->end()->toDateTimeString());
+    }
+
+    /** @test */
     public function it_creates_a_custom_timeslot()
     {
         $datetime = Carbon::create('2019', '11', '4', '12', '10', '36');

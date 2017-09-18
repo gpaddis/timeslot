@@ -22,10 +22,15 @@ If you don't pass any arguments, the timeslot will start at the moment of the in
 // Timeslot created on 2017-08-19 15:08:35, its start time is set at 15:08:00
 $timeslot = new Timeslot();
 ```
-If you want your timeslot to start at the beginning of the current hour, you can call the `round()` method on the instance. In this case, you might find the `Timeslot::create()` fluent syntax more convenient:
+If you want to reset the start time of your timeslot at hh:00:00 and calculate its end time accordingly, you can call the `round()` method on the instance. In this case, you might find the `Timeslot::create()` fluent syntax more convenient:
 ```php
 $timeslot = Timeslot::create('2017-08-19 15:08:35')->round();
 // Will set the start time at 15:00:00 and the end time at 15:59:59
+```
+The method `round()` works with bigger timeslots as well:
+```php
+$timeslot = Timeslot::create('2019-11-04 12:15:15', 3, 30)->round();
+// Will set the start time at 12:00:00 and the end time at 15:29:59 (3h 30m)
 ```
 Very often, I want to create a default 1-hour timeslot that fits the current hour. The static method `Timeslot::now()` does exactly this:
 ```php
