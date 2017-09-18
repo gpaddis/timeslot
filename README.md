@@ -2,7 +2,6 @@
 A simple yet flexible timeslot management API.
 
 [![Build Status](https://travis-ci.org/gpaddis/timeslot.svg?branch=master)](https://travis-ci.org/gpaddis/timeslot)
-[![StyleCI](https://styleci.io/repos/102377872/shield?branch=master)](https://styleci.io/repos/102377872)
 
 ## Usage
 ### Creating a new timeslot
@@ -34,8 +33,8 @@ $timeslot = Timeslot::create('2019-11-04 12:15:15', 3, 30)->round();
 ```
 Very often, I want to create a default 1-hour timeslot that fits the current hour. The static method `Timeslot::now()` does exactly this:
 ```php
-// Time of instantiation: xx:34:08
-$timeslot = Timeslot::now(); // Duration: 1h, start: xx:00:00, end: xx:59:59
+// Time of instantiation: hh:34:08
+$timeslot = Timeslot::now(); // Duration: 1h, start: hh:00:00, end: hh:59:59
 ```
 ### Getting start and end
 Start() and end() methods return **Carbon instances**. This way, you can manipulate them with Carbon methods (e.g. ->toDateTimeString(), ->timestamp, etc.: see the [API docs](http://carbon.nesbot.com/docs/)).
