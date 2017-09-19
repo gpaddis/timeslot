@@ -3,6 +3,8 @@ A simple yet flexible timeslot management API.
 
 [![Build Status](https://travis-ci.org/gpaddis/timeslot.svg?branch=master)](https://travis-ci.org/gpaddis/timeslot)
 
+**Warning: this library is in development and might change significantly before v1.0 is released.**
+
 ## Usage
 ### Creating a new timeslot
 **Timeslot** uses [Carbon](https://github.com/briannesbitt/Carbon) extensively. You can create a new timeslot passing it a Carbon instance, but you can also use a DateTime instance or a valid datetime string instead. The complete syntax is `new Timeslot($start, $hours, $minutes)`.
