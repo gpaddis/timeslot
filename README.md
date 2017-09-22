@@ -30,4 +30,4 @@ $collection->end()->toDateTimeString();   // 2017-08-19 16:59:59 (2 hours later)
 $collection->get(1)->start()->toDateTimeString(); // 2017-08-19 15:30:00 (second timeslot in the collection)
 ```
 
-Check the wiki for a full description of all available methods.
+[Check the wiki](https://github.com/gpaddis/timeslot/wiki/) for a full description of all available methods.
