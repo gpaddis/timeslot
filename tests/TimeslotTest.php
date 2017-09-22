@@ -128,4 +128,16 @@ class TimeslotTest extends TestCase
         $this->assertEquals('2017-01-18 15:00:00', $timeslot->start()->toDateTimeString());
         $this->assertEquals('2017-01-18 15:59:59', $timeslot->end()->toDateTimeString());
     }
+
+    /** @test */
+    public function it_checks_whether_a_datetime_object_is_within_the_timeslot()
+    {
+        $timeslot = new Timeslot('2017-01-18 15:00:00');
+
+        $within = Carbon::parse('2017-01-18 15:00:00');
+        $outside = Carbon::parse('2017-01-18 16:30:00');
+
+        $this->assertTrue($timeslot->has($within));
+        $this->assertFalse($timeslot->has($outside));
+    }
 }
