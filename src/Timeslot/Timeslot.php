@@ -210,4 +210,16 @@ class Timeslot implements TimeslotInterface
     {
         return static::create(Carbon::now())->round();
     }
+
+    /**
+     * Return true if the Carbon instance passed as argument is between start
+     * and end date & time.
+     *
+     * @param  Carbon  $datetime
+     * @return boolean
+     */
+    public function has(Carbon $datetime) : bool
+    {
+        return $datetime->between($this->start(), $this->end());
+    }
 }
